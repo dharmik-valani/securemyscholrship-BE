@@ -1,11 +1,11 @@
-import { courseQuery, findCourseByField } from "../services/course.service.js";
+import {
+  getCourseQuery,
+  findCourseByField,
+} from "../services/course.service.js";
+import { asyncMW } from "../utils/async-middleware.js";
 
-export const getCourses = async (req, res) => {
-  try {
-    const query = courseQuery(req.query);
-    const courses = await findCourseByField(query);
-    res.status(200).json({ courses });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+export const getCourses = asyncMW(async (req, res) => {
+  const query = getCourseQuery(req.query);
+  const courses = await findCourseByField(query);
+  res.status(200).json({ courses });
+});
