@@ -15,14 +15,15 @@ export const findCourseByField = (sql) => {
 export const getCourseQuery = (queryReq) => {
   const { name, level, country } = queryReq;
   let query =
-    "SELECT DISTINCT Course.*, University.*, EducationLevel.*, Country.* FROM Course";
+    "SELECT DISTINCT Course.*, University.*, EducationLevel.*, Country.*, Scholarship.* FROM Course";
 
   query +=
     " LEFT JOIN University ON Course.university_id = University.university_id";
   query +=
     " LEFT JOIN EducationLevel ON Course.level_id = EducationLevel.level_id";
   query += " LEFT JOIN Country ON University.country_id = Country.country_id";
-
+  query +=
+    " LEFT JOIN Scholarship ON Course.university_id = Scholarship.university_id AND Course.level_id = Scholarship.level_id";
   const conditions = [];
 
   if (name) {
